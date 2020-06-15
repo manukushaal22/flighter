@@ -1,6 +1,7 @@
 package com.app.flighter.models;
 
 import com.app.flighter.enums.GenderEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,6 +35,7 @@ public class Traveller implements Serializable {
     private GenderEnum gender;
 
     @OneToMany(mappedBy = "flight")
+    @JsonIgnore
     private List<TravellerFlight> travellerFlights = new ArrayList<>();
 
     @NotBlank
@@ -44,11 +46,13 @@ public class Traveller implements Serializable {
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @CreatedDate
     private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @LastModifiedDate
     private Date updatedAt;
 }

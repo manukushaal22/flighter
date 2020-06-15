@@ -6,6 +6,7 @@ import com.app.flighter.repositories.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -13,8 +14,12 @@ import java.util.List;
 @RequestMapping("/api")
 public class NoteController {
 
+    private final NoteRepository noteRepository;
+
     @Autowired
-    NoteRepository noteRepository;
+    public NoteController(NoteRepository noteRepository) {
+        this.noteRepository = noteRepository;
+    }
 
     @GetMapping("/notes")
     public List<Note> getAllNotes() {
@@ -39,8 +44,7 @@ public class NoteController {
         note.setTitle(noteDetails.getTitle());
         note.setContent(noteDetails.getContent());
 
-        Note updatedNote = noteRepository.save(note);
-        return updatedNote;
+        return noteRepository.save(note);
     }
 
     @DeleteMapping("/notes/{id}")

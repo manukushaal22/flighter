@@ -1,9 +1,9 @@
 package com.app.flighter.services;
 
-import com.app.flighter.models.Traveller;
+import com.app.flighter.models.Flight;
 
 import java.util.List;
 
 public interface TravellerService {
-    List<Traveller> getTravellersOfFlight(Long flightId);
+    List<Flight> getFlightsOfTraveller(Long travellerId);
 }

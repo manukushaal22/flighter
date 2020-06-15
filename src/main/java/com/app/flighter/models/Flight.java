@@ -1,5 +1,6 @@
 package com.app.flighter.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,11 +25,11 @@ public class Flight implements Serializable {
     private String flightNumber;
 
     @ManyToOne
-    @JoinColumn(name = "fk_flight_to_source_airport")
+    @JoinColumn(name = "source_airport_name", referencedColumnName = "airport_name")
     private Airport sourceAirport;
 
     @ManyToOne
-    @JoinColumn(name = "fk_flight_to_destination_airport")
+    @JoinColumn(name = "destination_airport_name", referencedColumnName = "airport_name")
     private Airport destinationAirport;
 
     @Column(nullable = false)
@@ -40,15 +41,18 @@ public class Flight implements Serializable {
     private Date arrivingTime;
 
     @OneToMany(mappedBy = "traveller")
+    @JsonIgnore
     private List<TravellerFlight> travellerFlights = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @CreatedDate
     private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @LastModifiedDate
     private Date updatedAt;
 

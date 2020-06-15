@@ -1,8 +1,9 @@
 package com.app.flighter.models;
 
-import com.app.flighter.enums.AirportNameEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,26 +22,30 @@ public class Airport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    private AirportNameEnum airportName;
+    @NaturalId
+    @Column(name = "airport_name")
+    private String airportName;
 
     @NotBlank
     private String city;
 
     @OneToMany(mappedBy = "sourceAirport")
+    @JsonIgnore
     private List<Flight> departingFlights = new ArrayList<>();
 
     @OneToMany(mappedBy = "destinationAirport")
+    @JsonIgnore
     private List<Flight> arrivingFlights = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @CreatedDate
     private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonIgnore
     @LastModifiedDate
     private Date updatedAt;
 

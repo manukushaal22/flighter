@@ -4,7 +4,7 @@ import com.app.flighter.exceptions.ResourceNotFoundException;
 import com.app.flighter.models.Flight;
 import com.app.flighter.models.Traveller;
 import com.app.flighter.models.TravellerFlight;
-import com.app.flighter.repositories.FlightRepository;
+import com.app.flighter.repositories.TravellerRepository;
 import com.app.flighter.services.TravellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,20 @@ import java.util.List;
 @Service
 public class TravellerServiceImpl implements TravellerService {
 
+    private final TravellerRepository travellerRepository;
+
     @Autowired
-    private FlightRepository flightRepository;
+    public TravellerServiceImpl(TravellerRepository travellerRepository) {
+        this.travellerRepository = travellerRepository;
+    }
 
     @Override
-    public List<Traveller> getTravellersOfFlight(Long flightId) {
-        Flight flight = flightRepository.findById(flightId).orElseThrow(()->new ResourceNotFoundException("flight","id",flightId));
-        List<Traveller> travellersList = new ArrayList<>();
-        for(TravellerFlight travellerFlight : flight.getTravellerFlights()){
-            travellersList.add(travellerFlight.getTraveller());
+    public List<Flight> getFlightsOfTraveller(Long travellerId) {
+        Traveller traveller = travellerRepository.findById(travellerId).orElseThrow(()->new ResourceNotFoundException("traveller","id",travellerId));
+        List<Flight> flightsList = new ArrayList<>();
+        for(TravellerFlight travellerFlight : traveller.getTravellerFlights()){
+            flightsList.add(travellerFlight.getFlight());
         }
-        return travellersList;
+        return flightsList;
     }
 }
