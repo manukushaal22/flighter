@@ -40,7 +40,7 @@ public class Flight implements Serializable {
     private Date arrivingTime;
 
     @OneToMany(mappedBy = "traveller")
-    private List<TravellerFlight> travellers = new ArrayList<>();
+    private List<TravellerFlight> travellerFlights = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

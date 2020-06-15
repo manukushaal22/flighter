@@ -34,7 +34,7 @@ public class Traveller implements Serializable {
     private GenderEnum gender;
 
     @OneToMany(mappedBy = "flight")
-    private List<TravellerFlight> flights = new ArrayList<>();
+    private List<TravellerFlight> travellerFlights = new ArrayList<>();
 
     @NotBlank
     private String mobileNumber;
